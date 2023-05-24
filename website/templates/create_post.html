@@ -1,0 +1,123 @@
+{% extends "base.html" %} {% block title %}New Post{% endblock %} 
+{% block content%}
+<head> 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a new workout </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
+    </head>
+    <body>
+     <script>
+    $(document).ready(function() {
+      
+    var MaxInputs       = 8; //maximum input boxes allowed
+    var InputsWrapper   = $("#InputsWrapper"); //Input boxes wrapper ID
+    var AddButton       = $("#AddMoreFileBox"); //Add button ID
+      
+    var x = InputsWrapper.length; //initlal text box count
+    var FieldCount=1; //to keep track of text box added
+      
+    $(AddButton).click(function (e)  //on add input button click
+    {
+            if(x <= MaxInputs) //max input box allowed
+            {
+                FieldCount++; //text box added increment
+                //add input box
+                $(InputsWrapper).append('<div class="row"><div class="col-xs-4"> <input type="text" name="exercise[]" placeholder="Enter exercise name" class="form-control name_list" /></div><div class="col-xs-4"><input type="number" name="sets[]" placeholder="Enter number of sets" class="form-control name_list" /> </div> <div class="col-xs-4"><input type="number" name="pounds[]" placeholder="Enter number of pounds" class="form-control name_list" /> </div> </div>'
+                );
+                x++; //text box increment
+            }
+    return false;
+    });
+      
+
+    
+    $("body").on("click",".removeclass", function(e){ //user click on remove text
+            if( x > 1 ) {
+                    $(this).parent('div').remove(); //remove text box
+                    x--; //decrement textbox
+            }
+    return false;
+    })
+
+    $('#csvUpload').change(function() {
+        var filename = $(this).val().replace(/.*[\/\\]/, '');
+        $('#csvFileName').text(filename);
+    });
+    
+    });
+    </script>
+    <style>
+    .row {padding:10px;}
+    </style>
+    <form method ="POST">
+    <div class="container">
+        <br />
+        <br />
+        <h2 align="center">New Workout</h2>
+        <div id="resultbox"></div>
+
+        <div class="form-group">
+            <label for="workout_name">Workout Name:</label>
+            <input type="text" name="workout_name" id="workout_name" placeholder="Enter workout name" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+            <label for="bodyweight">Bodyweight:</label>
+            <input type="number" name="bodyweight" id="bodyweight" placeholder="Enter bodyweight in lbs" class="form-control" required>
+        </div>
+
+        
+
+        <div class="form-group">
+            <form name="add_exercise" id="add_exercise">
+                <div id="InputsWrapper">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <input type="text" name="exercise[]" placeholder="Enter exercise name" class="form-control name_list" />
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="number" name="sets[]" placeholder="Enter number of sets" class="form-control name_list" />
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="number" name="reps[]" placeholder="Enter number of reps" class="form-control name_list" />
+                        </div> 
+                        <div class="col-xs-3">
+                            <input type="number" name="pounds[]" placeholder="Enter weigth in lbs" class="form-control name_list" />
+                        </div> 
+                    </div>        
+               </div>
+             </div>
+             <br/> 
+             <div class="col-xs-6"><button type="button" name="add" id="AddMoreFileBox" class="btn btn-success">Add Exersice</button></div>
+             <button type="submit" class="btn btn-primary">Submit</button>  
+                         </form>  
+                    </div>  
+               </div> 
+            </form> 
+
+
+
+            <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-md-12">
+                    <form method="POST" enctype="multipart/form-data" action="/upload_csv">
+                        <div class="form-group">
+                          <label for="csvUpload1">Upload CSV Accelerometer Data:</label>
+                          <input type="file" name="csvUpload1" id="csvUpload1" accept=".csv" class="form-control-file" required>
+                        </div>
+                        <div class="form-group">
+                          <label for="csvUpload2">Upload CSV Gyroscope Data:</label>
+                          <input type="file" name="csvUpload2" id="csvUpload2" accept=".csv" class="form-control-file" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload</button>
+                      </form>
+                  </div>
+                </div>
+              </div>
+              
+              
+    </body>
+{% endblock %}
