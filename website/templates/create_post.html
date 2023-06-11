@@ -1,58 +1,77 @@
-{% extends "base.html" %} {% block title %}New Post{% endblock %} 
+{% extends "base.html" %}
+{% block title %}New Post{% endblock %}
 {% block content%}
-<head> 
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submit a new workout </title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />  
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>  
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>    
-    </head>
-    <body>
-     <script>
+    <title>Submit a new workout</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<script>
     $(document).ready(function() {
-      
-    var MaxInputs       = 8; //maximum input boxes allowed
-    var InputsWrapper   = $("#InputsWrapper"); //Input boxes wrapper ID
-    var AddButton       = $("#AddMoreFileBox"); //Add button ID
-      
-    var x = InputsWrapper.length; //initlal text box count
-    var FieldCount=1; //to keep track of text box added
-      
-    $(AddButton).click(function (e)  //on add input button click
-    {
-            if(x <= MaxInputs) //max input box allowed
-            {
-                FieldCount++; //text box added increment
-                //add input box
-                $(InputsWrapper).append('<div class="row"><div class="col-xs-4"> <input type="text" name="exercise[]" placeholder="Enter exercise name" class="form-control name_list" /></div><div class="col-xs-4"><input type="number" name="sets[]" placeholder="Enter number of sets" class="form-control name_list" /> </div> <div class="col-xs-4"><input type="number" name="pounds[]" placeholder="Enter number of pounds" class="form-control name_list" /> </div> </div>'
-                );
-                x++; //text box increment
-            }
-    return false;
-    });
-      
+        var exerciseNames = {{ exerciseNames|safe }}; // Fetch exercise names from your server-side code
+        var MaxInputs = 8; // maximum input boxes allowed
+        var InputsWrapper = $("#InputsWrapper"); // Input boxes wrapper ID
+        var AddButton = $("#AddMoreFileBox"); // Add button ID
+        var x = InputsWrapper.length; // initial text box count
+        var FieldCount = 1; // to keep track of text boxes added
 
-    
-    $("body").on("click",".removeclass", function(e){ //user click on remove text
-            if( x > 1 ) {
-                    $(this).parent('div').remove(); //remove text box
-                    x--; //decrement textbox
-            }
-    return false;
-    })
+        function populateExerciseForm(exerciseName) {
+            var exerciseForm = '<div class="row">' +
+                '<div class="col-xs-4">' +
+                '<input type="text" name="exercise[]" value="' + exerciseName + '" class="form-control name_list" readonly />' +
+                '</div>' +
+                '<div class="col-xs-4">' +
+                '<input type="number" name="sets[]" placeholder="Enter number of sets" class="form-control name_list" />' +
+                '</div>' +
+                '<div class="col-xs-4">' +
+                '<input type="number" name="pounds[]" placeholder="Enter number of pounds" class="form-control name_list" />' +
+                '</div>' +
+                '</div>';
+            return exerciseForm;
+        }
 
-    $('#csvUpload').change(function() {
-        var filename = $(this).val().replace(/.*[\/\\]/, '');
-        $('#csvFileName').text(filename);
+        // Populate forms for each exercise name
+        for (var i = 0; i < exerciseNames.length; i++) {
+            var exerciseName = exerciseNames[i];
+            $(InputsWrapper).append(populateExerciseForm(exerciseName));
+            x++;
+        }
+
+        $(AddButton).click(function(e) {
+            if (x <= MaxInputs) {
+                FieldCount++;
+                $(InputsWrapper).append(populateExerciseForm(''));
+                x++;
+            }
+            return false;
+        });
+
+        $("body").on("click", ".removeclass", function(e) {
+            if (x > 1) {
+                $(this).parent('div').remove();
+                x--;
+            }
+            return false;
+        });
+
+        $('#csvUpload').change(function() {
+            var filename = $(this).val().replace(/.*[\/\\]/, '');
+            $('#csvFileName').text(filename);
+        });
     });
-    
-    });
-    </script>
-    <style>
-    .row {padding:10px;}
-    </style>
-    <form method ="POST">
+</script>
+
+<style>
+    .row {
+        padding: 10px;
+    }
+</style>
+
+<form method="POST">
     <div class="container">
         <br />
         <br />
@@ -69,55 +88,33 @@
             <input type="number" name="bodyweight" id="bodyweight" placeholder="Enter bodyweight in lbs" class="form-control" required>
         </div>
 
-        
-
         <div class="form-group">
             <form name="add_exercise" id="add_exercise">
-                <div id="InputsWrapper">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <input type="text" name="exercise[]" placeholder="Enter exercise name" class="form-control name_list" />
-                        </div>
-                        <div class="col-xs-3">
-                            <input type="number" name="sets[]" placeholder="Enter number of sets" class="form-control name_list" />
-                        </div>
-                        <div class="col-xs-3">
-                            <input type="number" name="reps[]" placeholder="Enter number of reps" class="form-control name_list" />
-                        </div> 
-                        <div class="col-xs-3">
-                            <input type="number" name="pounds[]" placeholder="Enter weigth in lbs" class="form-control name_list" />
-                        </div> 
-                    </div>        
-               </div>
-             </div>
-             <br/> 
-             <div class="col-xs-6"><button type="button" name="add" id="AddMoreFileBox" class="btn btn-success">Add Exersice</button></div>
-             <button type="submit" class="btn btn-primary">Submit</button>  
-                         </form>  
-                    </div>  
-               </div> 
-            </form> 
+                <div id="InputsWrapper"></div>
+        </div>
+        <br/>
+        <div class="col-xs-6"><button type="button" name="add" id="AddMoreFileBox" class="btn btn-success">Add Exercise</button></div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</form>
 
-
-
-            <div class="container">
-                <div class="row justify-content-center">
-                  <div class="col-md-12">
-                    <form method="POST" enctype="multipart/form-data" action="/upload_csv">
-                        <div class="form-group">
-                          <label for="csvUpload1">Upload CSV Accelerometer Data:</label>
-                          <input type="file" name="csvUpload1" id="csvUpload1" accept=".csv" class="form-control-file" required>
-                        </div>
-                        <div class="form-group">
-                          <label for="csvUpload2">Upload CSV Gyroscope Data:</label>
-                          <input type="file" name="csvUpload2" id="csvUpload2" accept=".csv" class="form-control-file" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Upload</button>
-                      </form>
-                  </div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <form method="POST" enctype="multipart/form-data" action="/upload_csv">
+                <div class="form-group">
+                    <label for="csvUpload1">Upload CSV Accelerometer Data:</label>
+                    <input type="file" name="csvUpload1" id="csvUpload1" accept=".csv" class="form-control-file" required>
                 </div>
-              </div>
-              
-              
-    </body>
+                <div class="form-group">
+                    <label for="csvUpload2">Upload CSV Gyroscope Data:</label>
+                    <input type="file" name="csvUpload2" id="csvUpload2" accept=".csv" class="form-control-file" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
 {% endblock %}

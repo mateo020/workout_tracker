@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify, redirect,url_for
+from flask import Blueprint, render_template, request, flash, jsonify, redirect,url_for,session
 from flask_login import login_required, current_user
 from . import db
 from .models import User, Workout, Exercise
@@ -22,9 +22,14 @@ def home():
 @login_required
 def new_workout():
     if request.method == 'POST':
+        exercise_names = session.pop('exercise_names', [])
         
-        
-        
+        # acc_df= pd.read_csv("../staticFiles/uploads/clusterdata.csv")
+        # gyr_df= pd.read_csv("../staticFiles/uploads/clusterdata.csv")
+
+        # data_resampled = make_dataset(acc_df,gyr_df)   
+        # predictions = filter_out_noice(data_resampled)    
+        # exercise_names = predicted_exercises(predictions) 
         
         
         exercise_names = request.form.getlist('exercise[]')
