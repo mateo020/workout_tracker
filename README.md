@@ -65,10 +65,4 @@ The Fitness Tracker Web App is designed to assist fitness enthusiasts in trackin
 5. View the predicted exercises and store the workout details in your profile.
 6. Analyze your workout history, track progress, and gain insights into your exercise routines.
 
-## License
 
-This project is licensed under the [MIT License](LICENSE).
-
-```
-
-Feel free to modify the content or structure of the README file further to accurately represent your project's features and implementation.
