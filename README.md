@@ -1,6 +1,6 @@
 
 # Fitness Tracker Web App
-
+![Demo](https://github.com/mateo020/workout_tracker/blob/main/demo/demo.gif)
 
 [![Python](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Flask-2.0.1-brightgreen)](https://flask.palletsprojects.com/)
