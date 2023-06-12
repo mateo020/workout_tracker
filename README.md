@@ -1,25 +1,54 @@
-## Fitness Tracker Web Application
+# Fitness Tracker Web App
 
-**##Features**
-Machine Learning Model: The application incorporates a machine learning model that classifies exercises such as bench press, squat, deadlift, and row. The model is trained on collected sensor data to accurately predict the exercises performed during a workout.
+This project is a fitness tracker web application developed using Python and Flask framework. The application utilizes machine learning techniques, feature engineering, and sensor data to track and classify exercises performed during workouts.
 
-Sensor Data Collection: The web app is integrated with MetaMotion sensors to collect raw accelerometer and gyroscope data during workouts. This data is then used as input for the exercise prediction model.
+## Features
 
-Workout Tracking: Users can upload their workout data, including the collected sensor data, to the application. The application processes the data, predicts the exercises performed, and stores the workout details in the user's profile.
+- **Exercise Classification**: The web app includes a machine learning model trained on collected sensor data. This model can classify exercises such as bench press, squat, deadlift, and row, based on the input data.
 
-**Getting Started**
-To run the fitness tracker web application locally, follow these steps:
+- **Sensor Data Integration**: The application integrates with MetaMotion sensors to collect raw accelerometer and gyroscope data during workouts. This data is then used for exercise prediction and analysis.
 
-Clone the repository: git clone https://github.com/your-username/fitness-tracker.git
-Install the required dependencies: pip install -r requirements.txt
-Set up the database: Run the create_database function in __init__.py to create the SQLite database.
-Configure the MetaMotion sensors: Connect the sensors to the application and ensure they are properly calibrated.
-Start the application: Run python app.py to start the Flask development server.
-Access the application: Open your web browser and navigate to http://localhost:5000 to access the fitness tracker web application.
-**Usage**
-Sign up for an account or log in if you already have one.
-Connect and calibrate the MetaMotion sensors.
-Start a new workout session and perform your exercises while the sensors collect data.
-Upload the workout data using the provided CSV upload form.
-The application will process the data, predict the exercises performed, and store the workout details in your profile.
-View your workout history and track your progress over time
+- **Workout Data Upload**: Users can upload their workout data to the web app. The collected data is processed and analyzed to predict the exercises performed during the workout session.
+
+- **User Profiles**: The web app allows users to create profiles and store their workout details. The predicted exercises and other relevant information are saved in the user's profile for tracking and reference.
+
+## Technologies Used
+
+- Python
+- Flask
+- Sci-kit Learn
+- HTML
+- Feature Engineering
+
+## Getting Started
+
+To run the fitness tracker web app locally, follow these steps:
+
+1. Clone the repository:
+   ```
+   git clone https://github.com/your-username/fitness-tracker-web-app.git
+   ```
+
+2. Install the required dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+
+3. Run the application:
+   ```
+   python app.py
+   ```
+
+4. Open your web browser and access the application at `http://localhost:5000`.
+
+## Usage
+
+1. Create a user profile by signing up on the web app.
+
+2. Connect the MetaMotion sensor to your device and start a workout session.
+
+3. Upload the collected sensor data to the web app.
+
+4. The application will analyze the data and predict the exercises performed during the workout.
+
+5. View the workout details and exercise predictions in your user profile.
