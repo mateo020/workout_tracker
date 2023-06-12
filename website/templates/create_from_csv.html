@@ -12,7 +12,7 @@
      <script>
     $(document).ready(function() {
 
-    
+    var exerciseNames = JSON.parse('{{ exerciseNames|tojson|safe }}');
       
     var MaxInputs       = 8; //maximum input boxes allowed
     var InputsWrapper   = $("#InputsWrapper"); //Input boxes wrapper ID
@@ -20,16 +20,46 @@
       
     var x = InputsWrapper.length; //initlal text box count
     var FieldCount=1; //to keep track of text box added
-      
+    
+    function populateExerciseForm(exerciseName) {
+        var exerciseForm = '<div class="row">' +
+            '<div class="col-xs-3">' +
+                '<input type="text" name="exercise[]" placeholder="Enter exercise name" class="form-control name_list" value="' + exerciseName + '" />' +
+            '</div>' +
+            '<div class="col-xs-3">' +
+                '<input type="number" name="sets[]" placeholder="Enter number of sets" class="form-control name_list" />' +
+            '</div>' +
+            '<div class="col-xs-3">' +
+                '<input type="number" name="reps[]" placeholder="Enter number of reps" class="form-control name_list" />' +
+            '</div>' +
+            '<div class="col-xs-3">' +
+                '<input type="number" name="pounds[]" placeholder="Enter weight in lbs" class="form-control name_list" />' +
+            '</div>' +
+            '<div class="col-xs-1">' +
+                '<button type="button" class="btn btn-danger removeExercise">Delete</button>' +
+            '</div>' +
+        '</div>'
+        ;
+        return exerciseForm;
+    }
+
+     // Populate forms for each exercise name
+     for (var i = 0; i < exerciseNames.length; i++) {
+        var exerciseName = exerciseNames[i];
+        $(InputsWrapper).append(populateExerciseForm(exerciseName));
+        x++;
+    }
+
+
     $(AddButton).click(function (e)  //on add input button click
     {
             if(x <= MaxInputs) //max input box allowed
             {
                 FieldCount++; //text box added increment
                 //add input box
-                $(InputsWrapper).append( '<div class="row">' +
+                $(InputsWrapper).append('<div class="row">' +
                     '<div class="col-xs-3">' +
-                        '<input type="text" name="exercise[]" placeholder="Enter exercise name" class="form-control name_list" />' +
+                        '<input type="text" name="exercise[]" placeholder="Enter exercise name" class="form-control name_list" value="' + exerciseName + '" />' +
                     '</div>' +
                     '<div class="col-xs-3">' +
                         '<input type="number" name="sets[]" placeholder="Enter number of sets" class="form-control name_list" />' +
@@ -93,7 +123,7 @@
         <div class="form-group">
             <form name="add_exercise" id="add_exercise">
                 <div id="InputsWrapper">
-                         
+                            
                </div>
              </div>
              <br/> 

@@ -82,8 +82,8 @@ def create_app():
                     session['exercise_names'] = exercise_names
                     
         flash("Data uploaded!", "success")
-        # return render_template("create_post.html", exercise_names=exercise_names)
-        return redirect(url_for('views.new_workout'))
+        return render_template("create_from_csv.html", exerciseNames=exercise_names)
+       
     
     return app
 

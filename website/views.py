@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, jsonify, redirect,url_for,session
+from flask import Blueprint, render_template, request, flash, jsonify, redirect,url_for
 from flask_login import login_required, current_user
 from . import db
 from .models import User, Workout, Exercise
@@ -22,7 +22,6 @@ def home():
 @login_required
 def new_workout():
     if request.method == 'POST':
-        exercise_names = session.pop('exercise_names', [])
         
         # acc_df= pd.read_csv("../staticFiles/uploads/clusterdata.csv")
         # gyr_df= pd.read_csv("../staticFiles/uploads/clusterdata.csv")
@@ -61,6 +60,7 @@ def new_workout():
         db.session.commit()
 
         flash("Workout submitted successfully!", "success")
+        
         return redirect(url_for('views.home'))
-
+        
     return render_template("create_post.html")
